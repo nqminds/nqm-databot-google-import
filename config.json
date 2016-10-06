@@ -1,7 +1,0 @@
-{
-    "commandHost": "https://cmd.nq-m.com",
-    "queryHost": "https://q.nq-m.com",
-	"accessToken":"",
-	"clientSecretFile":"client_secret.json",
-	"tokenSecretFile":"google_auth_token.json"
-}
