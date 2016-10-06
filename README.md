@@ -19,4 +19,4 @@ The TBX dataset has to have the same schema as the google spreadsheet. The schem
 
 The databot is public and can be accessed at nqm-databot-google-import.
 
-' Note when executing the databot it will truncate the dataset.'
+**Note when executing the databot it will truncate the dataset.**
