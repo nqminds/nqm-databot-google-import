@@ -1,2 +1,2 @@
-# nqm-databot-google-import
-NQM Databot Google Spreadsheet Import
+# nqm-databot-minimal
+The simplest example of a javascript-based nqm databot
