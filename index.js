@@ -13,9 +13,9 @@ function saveSheet(auth, spreadsheetID, sheetname, datasetID, output) {
     auth: auth,
     spreadsheetId: spreadsheetID,
     range: sheetname,
-  }, function(err, response) {
+  }, function (err, response) {
     if (err) {
-      output.error('The API returned an error: %s',err);
+      output.error('The API returned an error: %s', err);
       process.exit(1);
     }
 
@@ -23,53 +23,53 @@ function saveSheet(auth, spreadsheetID, sheetname, datasetID, output) {
 
     if (rows.length == 0) {
       output.error('Error: No data found.');
-	    process.exit(1);
+      process.exit(1);
     } else if (rows.length == 1) {
-	    output.error('Error: Table has only the header.');
-	    process.exit(1);
-	  } else {
-	
-    var header = [];
-	  var datarows = _.drop(rows);
-	  var jsonrows = [];
+      output.error('Error: Table has only the header.');
+      process.exit(1);
+    } else {
 
-	  _.forEach(rows[0], function(headval){
-	    header.push(headval.split("#"));
-	  });
-		
-	  _.forEach(datarows, function(datavalue, i){
- 	  	var headerobj = {};
+      var header = [];
+      var datarows = _.drop(rows);
+      var jsonrows = [];
 
-      _.forEach(header, function(headval, index){
-		    if(headval[1]=="string")
-          return headerobj[headval[0]]=datavalue[index]
-		    else if(headval[1]=="number")
-	        return headerobj[headval[0]]=Number(datavalue[index])
+      _.forEach(rows[0], function (headval) {
+        header.push(headval.split("#"));
       });
 
-		  output.progress(100 * i/(rows.length-2));
-		  jsonrows.push(headerobj);
+      _.forEach(datarows, function (datavalue, i) {
+        var headerobj = {};
 
-    });
+        _.forEach(header, function (headval, index) {
+          if (headval[1] == "string")
+            return headerobj[headval[0]] = datavalue[index]
+          else if (headval[1] == "number")
+            return headerobj[headval[0]] = Number(datavalue[index])
+        });
 
-    nqmindsTDX.truncateDataset(datasetID, function(errTruncate, resTruncate) {
-	    if(errTruncate) {
-		    output.error("Error truncate: %s", errTruncate);
-		    process.exit(1);
-		  } else {
-		      nqmindsTDX.addDatasetData(datasetID, jsonrows, function(errAdd, resAdd) {
-		        if(errAdd) {
-			        output.error("Error add:%s", errAdd);
-			        process.exit(1);
-			      } else {
-			        output.debug("Added: %s rows to datasetID: %s", rows.length, datasetID);
-			        output.progress(100);
-			        process.exit(0);
-			      }
-    	    });
-		  }
-    })
-  }
+        output.progress(100 * i / (rows.length - 2));
+        jsonrows.push(headerobj);
+
+      });
+
+      nqmindsTDX.truncateDataset(datasetID, function (errTruncate, resTruncate) {
+        if (errTruncate) {
+          output.error("Error truncate: %s", errTruncate);
+          process.exit(1);
+        } else {
+          nqmindsTDX.addDatasetData(datasetID, jsonrows, function (errAdd, resAdd) {
+            if (errAdd) {
+              output.error("Error add:%s", errAdd);
+              process.exit(1);
+            } else {
+              output.debug("Added: %s rows to datasetID: %s", rows.length, datasetID);
+              output.progress(100);
+              process.exit(0);
+            }
+          });
+        }
+      })
+    }
   });
 }
 
@@ -87,7 +87,7 @@ function databot(input, output, context) {
   config.accessToken = context.authToken;
   nqmindsTDX = new TDXApi(config);
 
-	// Authorize a client with the loaded credentials, then call the
+  // Authorize a client with the loaded credentials, then call the
   // Google Sheets API.
   var credentials = config.clientSecret;
   var clientSecret = credentials.installed.client_secret;
